@@ -6,6 +6,8 @@ import pytz
 import time
 import os
 
+py_dir = os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__))))
+
 
 class BahaLogin:
     _session = None
@@ -39,7 +41,7 @@ class BahaLogin:
             self.scheduler.start()
 
     def read_setting(self):
-        setting_path = os.path.join('baha-autosignin.conf')
+        setting_path = os.path.join(py_dir, 'baha-autosignin.conf')
         conf = configparser.ConfigParser()
         if not os.path.isfile(setting_path):
             conf.add_section('Account')
