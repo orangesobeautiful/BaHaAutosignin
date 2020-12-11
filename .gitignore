@@ -1,0 +1,15 @@
+__pycache__
+baha-autosignin.conf
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Test File
+test.py
+Test.py
