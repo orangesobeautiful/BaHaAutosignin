@@ -131,12 +131,11 @@ class BahaLogin:
 
     def auto_sign(self):
         sign_info = self._session.post('https://www.gamer.com.tw/ajax/signin.php', data={'action': '2'}).json()
+        token = self._session.get('https://www.gamer.com.tw/ajax/get_csrf_token.php').text
         # print(sign_info)
         if sign_info['data']['signin'] == 1:
             print('已經簽到過了')
         else:
-            token = self._session.get(
-                'https://www.gamer.com.tw/ajax/get_csrf_token.php').text
             json_info = self._session.post(
                 'https://www.gamer.com.tw/ajax/signin.php', data={'action': '1', 'token': token})
             json_info = json_info.json()
@@ -149,6 +148,17 @@ class BahaLogin:
 
         sign_info = self._session.post('https://www.gamer.com.tw/ajax/signin.php', data={'action': '2'}).json()
         print('每日連續簽到 ', sign_info['data']['days'], '天')
+
+        # 看廣告領雙倍獎勵
+        if sign_info['data']['signin'] == 0:
+            print('看廣告領雙倍獎勵')
+            self._session.cookies.set('ckBahamutCsrfToken', token[:16], domain='.gamer.com.tw', secure=True)
+            self._session.post('https://api.gamer.com.tw/mobile_app/bahamut/v1/sign_in_ad_start.php',
+                               headers={'X-Bahamut-Csrf-Token': token[:16]})
+            time.sleep(35)
+            self._session.post('https://api.gamer.com.tw/mobile_app/bahamut/v1/sign_in_ad_finished.php',
+                               headers={'X-Bahamut-Csrf-Token': token[:16]})
+        print('已領取廣告雙倍獎勵')
 
         return True
 
