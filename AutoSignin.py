@@ -149,7 +149,6 @@ class BahaLogin:
 
         sign_info = self._session.post('https://www.gamer.com.tw/ajax/signin.php', data={'action': '2'}).json()
         print('每日連續簽到 ', sign_info['data']['days'], '天')
-        print('週年慶連續簽到 ', sign_info['data']['prjSigninDays'], ' 天')
 
         return True
 
